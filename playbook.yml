@@ -1,0 +1,22 @@
+- name: Configurar servidor web
+ hosts: local
+ become: yes
+ tasks:
+ - name: Actualizar paquetes
+ apt:
+ update_cache: yes
+ - name: Instalar nginx
+ apt:
+ name: nginx
+ state: present
+ - name: Crear página web
+ copy:
+ dest: /var/www/html/index.html
+ content: |
+ <h1>Servidor desplegado automáticamente con Ansible + Terraform</h1>
+ - name: Iniciar nginx manualmente
+ command: nginx
+ ignore_errors: yes
+ - name: Recargar nginx
+ command: nginx -s reload
+ ignore_errors
